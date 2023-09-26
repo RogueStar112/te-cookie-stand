@@ -213,16 +213,20 @@ function renderSales() {
 function renderWholeTable() {
   let totalsArray = [];
 
+  // let salesTable = document.getElementById("sales-table");
+  // clearDiv(salesTable);
+
   for (let i = 0; i < sales.length; i++) {
     sales[i].render_table();
   }
 
+  // rendering the totals
   for (let x = 0; x < hours.length; x++) {
     let time = document.getElementsByClassName(`${hours[x]}`);
     let totalForTime = 0;
 
     for (let hour = 0; hour < time.length; hour++) {
-      totalForTime += parseInt(time[hour].innerHTML);
+      totalForTime += parseInt(time[hour].textContent);
     }
 
     totalsArray.push(totalForTime);
@@ -230,6 +234,12 @@ function renderWholeTable() {
 
   let totals = new StoreLocation("Totals", 0, 0, 0, [], totalsArray);
   totals.render_table();
+}
+
+function clearDiv(div_name) {
+  // access the div element and use the replaceChildren() method to clear the div content
+  let div = document.getElementById(`${div_name}`);
+  div.replaceChildren();
 }
 
 // renderSales();
@@ -244,3 +254,4 @@ renderWholeTable();
 // sales[4].render_table();
 
 // credit to: https://stackoverflow.com/questions/13997793/generate-random-number-between-2-numbers
+// ClearDiv function: https://www.tutorialspoint.com/how-to-clear-the-content-of-a-div-using-javascript
