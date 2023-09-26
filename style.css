@@ -10,12 +10,18 @@
   font-family: Georgia;
 }
 
+main {
+  margin: 0 auto;
+  text-align: center;
+}
+
 #sales-list h2 ul li {
   font-weight: normal;
 }
 
 #sales-table {
   border-spacing: 0;
+  margin: 0 auto;
 }
 
 #sales-table tr > * {
