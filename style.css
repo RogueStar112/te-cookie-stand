@@ -9,3 +9,7 @@
 .font-text {
   font-family: Georgia;
 }
+
+#sales-list h2 ul li {
+  font-weight: normal;
+}

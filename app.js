@@ -72,6 +72,12 @@ function calculateSales(obj) {
   calculateCookiesPerHour(obj);
 }
 
+/* Why is this in a list?
+
+Because I do not want to create new locations by hand, so this is an easier way
+of implementing sales.
+
+*/
 let sales = [
   {
     location: "Seattle",
@@ -150,6 +156,12 @@ function generateLocation(
     min_hourly_customers: min_customers,
     max_hourly_customers: max_customers,
     avg_cookies_per_sale: avg_cookies,
+    customers_per_hour: [],
+    avg_cookies_per_hour: [],
+    total_cookies_sold: 0,
+    calculateSales: function () {
+      calculateSales(this);
+    },
   });
 
   return {
@@ -181,16 +193,19 @@ function generateSalesList() {
 
       ul.appendChild(li);
     }
+
     let li = document.createElement("li");
     li.textContent = `Total: ${total} cookies`;
     ul.appendChild(li);
   }
 }
 
+// this automatically generates the sales for each location
 for (i = 0; i < sales.length; i++) {
   sales[i].calculateSales();
 }
 
+// this puts the sales for each location in the DOM;
 generateSalesList();
 
 // credit to: https://stackoverflow.com/questions/13997793/generate-random-number-between-2-numbers
