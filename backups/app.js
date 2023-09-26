@@ -48,6 +48,30 @@ function generateCustomers(obj) {
   return newCustomers;
 }
 
+// These two functions are combined, in calculateSales.
+function calculateCustomersPerHour(obj) {
+  for (let i = 0; i < hours.length; i++) {
+    const randNum = randomNumber(
+      obj.min_hourly_customers,
+      obj.max_hourly_customers
+    );
+    obj.customers_per_hour.push(randNum);
+  }
+}
+
+function calculateCookiesPerHour(obj) {
+  for (let i = 0; i < hours.length; i++) {
+    const cookiesPerHour = obj.avg_cookies_per_sale * obj.customers_per_hour[i];
+
+    obj.avg_cookies_per_hour.push(Math.round(cookiesPerHour));
+  }
+}
+
+function calculateSales(obj) {
+  calculateCustomersPerHour(obj);
+  calculateCookiesPerHour(obj);
+}
+
 /* Why is this in a list?
 
 Because I do not want to create new locations by hand, so this is an easier way
@@ -55,85 +79,71 @@ of implementing sales.
 
 */
 
-function StoreLocation(
-  name,
-  minCust,
-  maxCust,
-  avgCps,
-  custPh = [],
-  avgCookPh = [],
-  totalCookies = 0
-) {
-  this.location = name;
-  this.min_hourly_customers = minCust;
-  this.max_hourly_customers = maxCust;
-  this.avg_cookies_per_sale = avgCps;
-  this.customers_per_hour = custPh;
-  this.avg_cookies_per_hour = avgCookPh;
-  this.total_cookies_sold = totalCookies;
-}
-
-// These two functions are combined, in calculateSales.
-StoreLocation.prototype.calculateCustomersPerHour = function () {
-  for (let i = 0; i < hours.length; i++) {
-    const randNum = randomNumber(
-      this.min_hourly_customers,
-      this.max_hourly_customers
-    );
-    this.customers_per_hour.push(randNum);
-  }
-};
-
-StoreLocation.prototype.calculateCookiesPerHour = function () {
-  for (let i = 0; i < hours.length; i++) {
-    const cookiesPerHour =
-      this.avg_cookies_per_sale * this.customers_per_hour[i];
-
-    this.avg_cookies_per_hour.push(Math.round(cookiesPerHour));
-  }
-};
-
-StoreLocation.prototype.calculateSales = function () {
-  this.calculateCustomersPerHour();
-  this.calculateCookiesPerHour();
-};
-
-StoreLocation.prototype.render = function () {
-  // write the code that adds the sales data onto the page in this function
-  // similar to your generateSalesList function, but this time it will only be for a single location
-  // change list to table, but ONLY after you've done the app.js code.
-
-  let salesList = document.getElementById("sales-list");
-
-  // resets the list
-  // salesList.replaceChildren();
-  let h2 = document.createElement("h2");
-  h2.textContent = `${this.location}`;
-  salesList.appendChild(h2);
-
-  const ul = document.createElement("ul");
-
-  h2.appendChild(ul);
-
-  for (x = 0; x < hours.length; x++) {
-    let li = document.createElement("li");
-    li.textContent = `${hours[x]}: ${this.avg_cookies_per_hour[x]} cookies`;
-    this.total_cookies_sold += this.avg_cookies_per_hour[x];
-
-    ul.appendChild(li);
-  }
-
-  let li = document.createElement("li");
-  li.textContent = `Total: ${this.total_cookies_sold} cookies`;
-  ul.appendChild(li);
-};
-
 let sales = [
-  new StoreLocation("Seattle", 23, 65, 6.3),
-  new StoreLocation("Tokyo", 3, 24, 1.2),
-  new StoreLocation("Dubai", 11, 38, 3.7),
-  new StoreLocation("Paris", 20, 38, 2.3),
-  new StoreLocation("Lima", 2, 16, 4.6),
+  {
+    location: "Seattle",
+    min_hourly_customers: 23,
+    max_hourly_customers: 65,
+    avg_cookies_per_sale: 6.3,
+    customers_per_hour: [],
+    avg_cookies_per_hour: [],
+    total_cookies_sold: 0,
+    calculateSales: function () {
+      calculateSales(this);
+    },
+  },
+
+  {
+    location: "Tokyo",
+    min_hourly_customers: 3,
+    max_hourly_customers: 24,
+    avg_cookies_per_sale: 1.2,
+    customers_per_hour: [],
+    avg_cookies_per_hour: [],
+    total_cookies_sold: 0,
+    calculateSales: function () {
+      calculateSales(this);
+    },
+  },
+
+  {
+    location: "Dubai",
+    min_hourly_customers: 11,
+    max_hourly_customers: 38,
+    avg_cookies_per_sale: 3.7,
+    customers_per_hour: [],
+    avg_cookies_per_hour: [],
+    total_cookies_sold: 0,
+    calculateSales: function () {
+      calculateSales(this);
+    },
+  },
+
+  {
+    location: "Paris",
+    min_hourly_customers: 20,
+    max_hourly_customers: 38,
+    avg_cookies_per_sale: 2.3,
+    customers_per_hour: [],
+    avg_cookies_per_hour: [],
+    total_cookies_sold: 0,
+    calculateSales: function () {
+      calculateSales(this);
+    },
+  },
+
+  {
+    location: "Lima",
+    min_hourly_customers: 2,
+    max_hourly_customers: 16,
+    avg_cookies_per_sale: 4.6,
+    customers_per_hour: [],
+    avg_cookies_per_hour: [],
+    total_cookies_sold: 0,
+    calculateSales: function () {
+      calculateSales(this);
+    },
+  },
 ];
 
 function generateLocation(
@@ -195,10 +205,9 @@ function generateSalesList() {
 // this automatically generates the sales for each location
 for (i = 0; i < sales.length; i++) {
   sales[i].calculateSales();
-  sales[i].render();
 }
 
 // this puts the sales for each location in the DOM;
-// generateSalesList();
+generateSalesList();
 
 // credit to: https://stackoverflow.com/questions/13997793/generate-random-number-between-2-numbers
