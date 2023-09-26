@@ -13,3 +13,8 @@
 #sales-list h2 ul li {
   font-weight: normal;
 }
+
+#sales-table tr > * {
+  padding: 6px;
+  text-align: center;
+}

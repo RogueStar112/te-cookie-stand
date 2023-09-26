@@ -98,35 +98,75 @@ StoreLocation.prototype.calculateSales = function () {
   this.calculateCookiesPerHour();
 };
 
-StoreLocation.prototype.render = function () {
-  // write the code that adds the sales data onto the page in this function
-  // similar to your generateSalesList function, but this time it will only be for a single location
-  // change list to table, but ONLY after you've done the app.js code.
+// StoreLocation.prototype.render = function () {
+//   // write the code that adds the sales data onto the page in this function
+//   // similar to your generateSalesList function, but this time it will only be for a single location
+//   // change list to table, but ONLY after you've done the app.js code.
 
-  let salesList = document.getElementById("sales-list");
+//   let salesList = document.getElementById("sales-list");
 
-  // resets the list
-  // salesList.replaceChildren();
-  let h2 = document.createElement("h2");
-  h2.textContent = `${this.location}`;
-  salesList.appendChild(h2);
+//   // resets the list
+//   // salesList.replaceChildren();
+//   let h2 = document.createElement("h2");
+//   h2.textContent = `${this.location}`;
+//   salesList.appendChild(h2);
 
-  const ul = document.createElement("ul");
+//   const ul = document.createElement("ul");
 
-  h2.appendChild(ul);
+//   h2.appendChild(ul);
 
-  for (x = 0; x < hours.length; x++) {
-    let li = document.createElement("li");
-    li.textContent = `${hours[x]}: ${this.avg_cookies_per_hour[x]} cookies`;
-    this.total_cookies_sold += this.avg_cookies_per_hour[x];
+//   for (x = 0; x < hours.length; x++) {
+//     let li = document.createElement("li");
+//     li.textContent = `${hours[x]}: ${this.avg_cookies_per_hour[x]} cookies`;
+//     this.total_cookies_sold += this.avg_cookies_per_hour[x];
 
-    ul.appendChild(li);
+//     ul.appendChild(li);
+//   }
+
+//   let li = document.createElement("li");
+//   li.textContent = `Total: ${this.total_cookies_sold} cookies`;
+//   ul.appendChild(li);
+// };
+
+StoreLocation.prototype.render_table = function () {
+  this.calculateSales();
+
+  let salesTable = document.getElementById("sales-table-body");
+
+  let tr = document.createElement("tr");
+  tr.setAttribute("id", `sales_for_${this.location}`);
+
+  salesTable.appendChild(tr);
+
+  // let tr_id = document.getElementById(`sales_for_${this.location}`);
+
+  const th = document.createElement("th");
+
+  th.textContent = this.location;
+  tr.appendChild(th);
+
+  for (i = 0; i < hours.length; i++) {
+    // table heading.
+    const td = document.createElement("td");
+    td.setAttribute("class", `${hours[i]}`);
+
+    td.textContent = this.avg_cookies_per_hour[i];
+
+    tr.appendChild(td);
   }
-
-  let li = document.createElement("li");
-  li.textContent = `Total: ${this.total_cookies_sold} cookies`;
-  ul.appendChild(li);
 };
+
+// this for loop will generate the hours on the table :)
+for (i = 0; i < hours.length; i++) {
+  let salesHeader = document.getElementById("sales-table-header");
+
+  // table heading.
+  const th = document.createElement("th");
+
+  th.textContent = hours[i];
+
+  salesHeader.appendChild(th);
+}
 
 let sales = [
   new StoreLocation("Seattle", 23, 65, 6.3),
@@ -136,69 +176,71 @@ let sales = [
   new StoreLocation("Lima", 2, 16, 4.6),
 ];
 
-function generateLocation(
-  location_name,
-  min_customers,
-  max_customers,
-  avg_cookies
-) {
-  sales.push({
-    location: location_name,
-    min_hourly_customers: min_customers,
-    max_hourly_customers: max_customers,
-    avg_cookies_per_sale: avg_cookies,
-    customers_per_hour: [],
-    avg_cookies_per_hour: [],
-    total_cookies_sold: 0,
-    calculateSales: function () {
-      calculateSales(this);
-    },
-  });
+// function generateLocation(
+//   location_name,
+//   min_customers,
+//   max_customers,
+//   avg_cookies
+// ) {
+//   sales.push({
+//     location: location_name,
+//     min_hourly_customers: min_customers,
+//     max_hourly_customers: max_customers,
+//     avg_cookies_per_sale: avg_cookies,
+//     customers_per_hour: [],
+//     avg_cookies_per_hour: [],
+//     total_cookies_sold: 0,
+//     calculateSales: function () {
+//       calculateSales(this);
+//     },
+//   });
 
-  return {
-    location: location_name,
-    min_hourly_customers: min_customers,
-    max_hourly_customers: max_customers,
-    avg_cookies_per_sale: avg_cookies,
-  };
-}
+//   return {
+//     location: location_name,
+//     min_hourly_customers: min_customers,
+//     max_hourly_customers: max_customers,
+//     avg_cookies_per_sale: avg_cookies,
+//   };
+// }
 
-function generateSalesList() {
-  let salesList = document.getElementById("sales-list");
-
-  // resets the list
-  // salesList.replaceChildren();
-
-  for (i = 0; i < sales.length; i++) {
-    let h2 = document.createElement("h2");
-    h2.textContent = `${sales[i].location}`;
-    salesList.appendChild(h2);
-
-    const ul = document.createElement("ul");
-
-    h2.appendChild(ul);
-
-    for (x = 0; x < hours.length; x++) {
-      let li = document.createElement("li");
-      li.textContent = `${hours[x]}: ${sales[i].avg_cookies_per_hour[x]} cookies`;
-      sales[i].total_cookies_sold += sales[i].avg_cookies_per_hour[x];
-
-      ul.appendChild(li);
-    }
-
-    let li = document.createElement("li");
-    li.textContent = `Total: ${sales[i].total_cookies_sold} cookies`;
-    ul.appendChild(li);
+// this automatically generates the sales for each location
+function renderSales() {
+  for (let i = 0; i < sales.length; i++) {
+    sales[i].calculateSales();
   }
 }
 
-// this automatically generates the sales for each location
-for (i = 0; i < sales.length; i++) {
-  sales[i].calculateSales();
-  sales[i].render();
+function renderWholeTable() {
+  let totalsArray = [];
+
+  for (let i = 0; i < sales.length; i++) {
+    sales[i].render_table();
+  }
+
+  for (let x = 0; x < hours.length; x++) {
+    let time = document.getElementsByClassName(`${hours[x]}`);
+    let totalForTime = 0;
+
+    for (let hour = 0; hour < time.length; hour++) {
+      totalForTime += parseInt(time[hour].innerHTML);
+    }
+
+    totalsArray.push(totalForTime);
+  }
+
+  let totals = new StoreLocation("Totals", 0, 0, 0, [], totalsArray);
+  totals.render_table();
 }
 
-// this puts the sales for each location in the DOM;
-// generateSalesList();
+// renderSales();
+
+console.log(sales);
+
+renderWholeTable();
+// sales[0].render_table();
+// sales[1].render_table();
+// sales[2].render_table();
+// sales[3].render_table();
+// sales[4].render_table();
 
 // credit to: https://stackoverflow.com/questions/13997793/generate-random-number-between-2-numbers
