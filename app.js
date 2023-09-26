@@ -1,21 +1,3 @@
-/*
-let sales_seattle = {
-
-  min_hourly_customers: 23,
-  max_hourly_customers: 65,
-  avg_cookies_per_customer = 6.3;
-
-  generateCustomers = function () {
-    
-    // added +1 to generate 1 to 10 customers
-    new_customers = Math.random(Math.floor() * 10) + 1
-
-
-
-  }
-};
-*/
-
 const hours = [
   "6am",
   "7am",
@@ -98,36 +80,6 @@ StoreLocation.prototype.calculateSales = function () {
   this.calculateCookiesPerHour();
 };
 
-// StoreLocation.prototype.render = function () {
-//   // write the code that adds the sales data onto the page in this function
-//   // similar to your generateSalesList function, but this time it will only be for a single location
-//   // change list to table, but ONLY after you've done the app.js code.
-
-//   let salesList = document.getElementById("sales-list");
-
-//   // resets the list
-//   // salesList.replaceChildren();
-//   let h2 = document.createElement("h2");
-//   h2.textContent = `${this.location}`;
-//   salesList.appendChild(h2);
-
-//   const ul = document.createElement("ul");
-
-//   h2.appendChild(ul);
-
-//   for (x = 0; x < hours.length; x++) {
-//     let li = document.createElement("li");
-//     li.textContent = `${hours[x]}: ${this.avg_cookies_per_hour[x]} cookies`;
-//     this.total_cookies_sold += this.avg_cookies_per_hour[x];
-
-//     ul.appendChild(li);
-//   }
-
-//   let li = document.createElement("li");
-//   li.textContent = `Total: ${this.total_cookies_sold} cookies`;
-//   ul.appendChild(li);
-// };
-
 StoreLocation.prototype.render_table = function () {
   this.calculateSales();
 
@@ -156,18 +108,6 @@ StoreLocation.prototype.render_table = function () {
   }
 };
 
-// this for loop will generate the hours on the table :)
-for (i = 0; i < hours.length; i++) {
-  let salesHeader = document.getElementById("sales-table-header");
-
-  // table heading.
-  const th = document.createElement("th");
-
-  th.textContent = hours[i];
-
-  salesHeader.appendChild(th);
-}
-
 let sales = [
   new StoreLocation("Seattle", 23, 65, 6.3),
   new StoreLocation("Tokyo", 3, 24, 1.2),
@@ -176,45 +116,65 @@ let sales = [
   new StoreLocation("Lima", 2, 16, 4.6),
 ];
 
-// function generateLocation(
-//   location_name,
-//   min_customers,
-//   max_customers,
-//   avg_cookies
-// ) {
-//   sales.push({
-//     location: location_name,
-//     min_hourly_customers: min_customers,
-//     max_hourly_customers: max_customers,
-//     avg_cookies_per_sale: avg_cookies,
-//     customers_per_hour: [],
-//     avg_cookies_per_hour: [],
-//     total_cookies_sold: 0,
-//     calculateSales: function () {
-//       calculateSales(this);
-//     },
-//   });
+function createStoreLocation(name, minCust, maxCust, avgCps) {
+  let newStore = new StoreLocation(`${name}`, minCust, maxCust, avgCps);
+  sales.push(newStore);
+  refreshTableBody();
+}
 
-//   return {
-//     location: location_name,
-//     min_hourly_customers: min_customers,
-//     max_hourly_customers: max_customers,
-//     avg_cookies_per_sale: avg_cookies,
-//   };
-// }
+function deleteStoreLocation(name) {
+  let locationFound = false;
+  let locationIndex = null;
 
-// this automatically generates the sales for each location
+  for (let i = 0; i < sales.length; i++) {
+    if (sales[i].location === name) {
+      console.log("found");
+      locationIndex = i;
+      locationFound = true;
+    }
+  }
+
+  if (locationFound) {
+    console.log(`${name} deleted.`);
+    sales.splice(locationIndex, 1, new StoreLocation("Deleted", 0, 0, 0));
+  }
+
+  refreshTableBody();
+}
+
+function renderTableHeader() {
+  // this for loop will generate the hours on the table. The cell 'Location' is already included in the HTML.
+  for (i = 0; i < hours.length; i++) {
+    let salesHeader = document.getElementById("sales-table-header");
+
+    // table heading.
+    const th = document.createElement("th");
+
+    th.textContent = hours[i];
+
+    salesHeader.appendChild(th);
+  }
+}
+
 function renderSales() {
   for (let i = 0; i < sales.length; i++) {
     sales[i].calculateSales();
   }
 }
 
-function renderWholeTable() {
-  let totalsArray = [];
+function refreshTableBody() {
+  replaceTableBody();
+  renderTableBody();
+}
 
-  // let salesTable = document.getElementById("sales-table");
-  // clearDiv(salesTable);
+function replaceTableBody() {
+  let tableElementsExist = document.getElementById("sales-table-body");
+
+  tableElementsExist.textContent = "";
+}
+
+function renderTableBody() {
+  let totalsArray = [];
 
   for (let i = 0; i < sales.length; i++) {
     sales[i].render_table();
@@ -232,26 +192,20 @@ function renderWholeTable() {
     totalsArray.push(totalForTime);
   }
 
+  // pretty cheeky way of introducing a total, making it a store location.
   let totals = new StoreLocation("Totals", 0, 0, 0, [], totalsArray);
   totals.render_table();
-}
-
-function clearDiv(div_name) {
-  // access the div element and use the replaceChildren() method to clear the div content
-  let div = document.getElementById(`${div_name}`);
-  div.replaceChildren();
 }
 
 // renderSales();
 
 console.log(sales);
 
-renderWholeTable();
-// sales[0].render_table();
-// sales[1].render_table();
-// sales[2].render_table();
-// sales[3].render_table();
-// sales[4].render_table();
+renderTableHeader();
+renderTableBody();
+
+// createStoreLocation("Manila", 20, 57, 4.8);
 
 // credit to: https://stackoverflow.com/questions/13997793/generate-random-number-between-2-numbers
 // ClearDiv function: https://www.tutorialspoint.com/how-to-clear-the-content-of-a-div-using-javascript
+// https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
