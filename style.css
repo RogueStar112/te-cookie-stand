@@ -10,10 +10,17 @@
   font-family: Georgia;
 }
 
+header {
+  margin: 0 auto;
+  text-align: center;
+}
+
 main {
   margin: 0 auto;
   text-align: center;
 }
+
+/* for sales.html */
 
 #sales-list h2 ul li {
   font-weight: normal;
@@ -36,4 +43,12 @@ main {
 
 tbody tr:nth-child(even) {
   background-color: rgb(215, 235, 243);
+}
+
+thead tr th:last-of-type {
+  border-left: 1px solid black;
+}
+
+tbody tr td:last-of-type {
+  border-left: 1px solid black;
 }

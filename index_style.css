@@ -1,0 +1,48 @@
+body {
+  max-width: 1280px;
+  margin: 0 auto;
+  margin-top: 20px;
+  background-color: rgb(255, 198, 192);
+}
+/* 
+header {
+  justify-content: space-between;
+} */
+
+#salmon-cookies-header nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+#salmon-cookies-header {
+  display: flex;
+  justify-content: space-around;
+}
+
+#salmon-cookies-header img {
+  max-width: 256px;
+}
+
+nav a {
+  text-decoration: none;
+  font-family: "Roboto Condensed", sans-serif;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+#header-container h1 {
+  margin-bottom: 0;
+}
+
+#header-container p {
+  margin: 0;
+  font-style: italic;
+}
+
+main {
+  margin: initial;
+  text-align: initial;
+}

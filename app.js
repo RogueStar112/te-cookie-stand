@@ -97,6 +97,7 @@ StoreLocation.prototype.render_table = function () {
   th.textContent = this.location;
   tr.appendChild(th);
 
+  // let storeTotal = 0;
   for (i = 0; i < hours.length; i++) {
     // table heading.
     const td = document.createElement("td");
@@ -104,8 +105,16 @@ StoreLocation.prototype.render_table = function () {
 
     td.textContent = this.avg_cookies_per_hour[i];
 
+    this.total_cookies_sold += this.avg_cookies_per_hour[i];
     tr.appendChild(td);
   }
+
+  const td = document.createElement("td");
+  td.setAttribute("class", `storeTotal_${this.location}`);
+
+  td.textContent = this.total_cookies_sold;
+
+  tr.appendChild(td);
 };
 
 let sales = [
@@ -144,9 +153,9 @@ function deleteStoreLocation(name) {
 
 function renderTableHeader() {
   // this for loop will generate the hours on the table. The cell 'Location' is already included in the HTML.
-  for (i = 0; i < hours.length; i++) {
-    let salesHeader = document.getElementById("sales-table-header");
+  let salesHeader = document.getElementById("sales-table-header");
 
+  for (i = 0; i < hours.length; i++) {
     // table heading.
     const th = document.createElement("th");
 
@@ -154,13 +163,19 @@ function renderTableHeader() {
 
     salesHeader.appendChild(th);
   }
+
+  const th = document.createElement("th");
+
+  th.textContent = "Total";
+
+  salesHeader.appendChild(th);
 }
 
-function renderSales() {
-  for (let i = 0; i < sales.length; i++) {
-    sales[i].calculateSales();
-  }
-}
+// function renderSales() {
+//   for (let i = 0; i < sales.length; i++) {
+//     sales[i].calculateSales();
+//   }
+// }
 
 function refreshTableBody() {
   replaceTableBody();
