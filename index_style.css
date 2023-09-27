@@ -45,4 +45,80 @@ nav a:hover {
 main {
   margin: initial;
   text-align: initial;
+  text-align: center;
 }
+
+#cookie-flavours {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+  list-style-type: none;
+}
+
+#cookie-flavours li {
+  display: flex;
+  flex-direction: row-reverse;
+  /* padding: 20px; */
+  padding-right: 20px;
+  flex: 1 1 0px;
+  align-items: center;
+  justify-content: space-between;
+  border: 3px solid black;
+
+  /* margin-top: 10px; */
+}
+
+#cookie-flavours li p {
+  padding-left: 20px;
+}
+
+.flavour-cinnamon {
+  background-color: salmon;
+  color: white;
+}
+
+#cookie-flavours li img {
+  max-height: 128px;
+}
+
+.flavour-lemon {
+  background-color: rgb(255, 255, 136);
+}
+
+.flavour-chocolate {
+  background-color: rgb(190, 64, 64);
+}
+
+.flavour-sugary {
+  background-color: skyblue;
+  color: white;
+}
+
+#locations-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+#main-container {
+  display: flex;
+  align-items: center;
+}
+
+#cookie-flavours {
+  width: 50%;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0 auto;
+}
+
+#cookie-flavours li {
+  font-size: 1.5rem;
+}
+
+/* #family-picture {
+  max-height: 512px;
+} */
+/* Credit to
+https://stackoverflow.com/questions/29503227/how-to-make-flexbox-items-the-same-size
+*/
