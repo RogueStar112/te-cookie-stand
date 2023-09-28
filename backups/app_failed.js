@@ -95,10 +95,19 @@ StoreLocation.prototype.render_table = function () {
   const th = document.createElement("th");
 
   th.textContent = this.location;
+
+  let salesItem = null;
+  for (let i = 0; i < sales.length; i++) {
+    if (sales[i].location == this.location) {
+      salesItem = sales[i];
+    }
+  }
+
+  th.setAttribute("onClick", `${salesItem}.select_self`);
   tr.appendChild(th);
 
   this.total_cookies_sold = 0;
-  for (i = 0; i < hours.length; i++) {
+  for (let i = 0; i < hours.length; i++) {
     // table heading.
     const td = document.createElement("td");
     td.setAttribute("class", `${hours[i]}`);

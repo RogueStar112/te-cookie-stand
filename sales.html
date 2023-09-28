@@ -14,8 +14,7 @@
     />
 
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="sales_form.css">
-      
+    <link rel="stylesheet" href="sales.css" />
   </head>
   <body>
     <header></header>
@@ -23,7 +22,7 @@
     <main>
       <div id="sales-list"></div>
 
-      <h2>Salmon Cookie Sales</h2>
+      <h2 class="font-roboto-ss">Salmon Cookie Sales</h2>
       <table id="sales-table">
         <thead>
           <tr id="sales-table-header">
@@ -42,38 +41,41 @@
       <p>- Demie</p> -->
 
       <form id="cookies-input-form">
-        
-
         <section>
-
           <fieldset>
             <legend><strong></strong>Create a Store</legend>
-        <div>
-          <label for="form-name">
-            Name of Store
-          </label>
+            <div>
+              <label for="form-name"> Name of Store </label>
 
-          <input id="form-name" name="form-name" type="text">
-        </div>
+              <input id="form-name" name="form-name" type="text" />
+            </div>
 
-        <div>
-          <label for="form-mincust">Minimum Customers</label>
-          <input id="form-mincust" name="form-minsales" >
-        </div>
-        
-        <div>
-          <label for="form-maxcust">Maximum Customers</label>
-          <input id="form-maxcust" name="form-maxcust" />
-        </div>
-          <label for="form-avgcps">Average Cookies Per Sale</label>
-          <input id="form-avgcps" name="form-avgcps" />
-        </div> 
-        </fieldset>
+            <!-- <p>The following fields are optional.</p> -->
 
+            <div>
+              <label for="form-mincust">Minimum Customers</label>
+              <input id="form-mincust" name="form-mincust" />
+            </div>
+
+            <div>
+              <label for="form-maxcust">Maximum Customers</label>
+              <input id="form-maxcust" name="form-maxcust" />
+            </div>
+
+            <div>
+              <label for="form-avgcps">Average Cookies Per Sale</label>
+              <input id="form-avgcps" name="form-avgcps" />
+            </div>
+          </fieldset>
         </section>
 
-        <input type="submit" />
-
+        <section id="store-buttons-container">
+          <button type="button" id="add-location-btn">Add Location</button>
+          <button type="button" id="edit-location-btn">Edit Location</button>
+          <button type="button" id="delete-location-btn">
+            Delete Location
+          </button>
+        </section>
       </form>
     </main>
 

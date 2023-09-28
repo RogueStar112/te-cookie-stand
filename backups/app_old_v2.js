@@ -86,7 +86,7 @@ StoreLocation.prototype.render_table = function () {
   let salesTable = document.getElementById("sales-table-body");
 
   let tr = document.createElement("tr");
-  tr.setAttribute("id", `sales_for_${this.location.toLowerCase()}`);
+  tr.setAttribute("id", `sales_for_${this.location}`);
 
   salesTable.appendChild(tr);
 
@@ -117,18 +117,6 @@ StoreLocation.prototype.render_table = function () {
   tr.appendChild(td);
 };
 
-StoreLocation.prototype.select_self = function () {
-  let form_name = document.getElementById("form-name");
-  let form_minCust = document.getElementById("form-mincust");
-  let form_maxCust = document.getElementById("form-maxcust");
-  let form_avgCps = document.getElementById("form-avgcps");
-
-  form_name.setAttribute("value", this.location);
-  form_minCust.setAttribute("value", this.min_hourly_customers);
-  form_maxCust.setAttribute("value", this.max_hourly_customers);
-  form_avgCps.setAttribute("value", this.avg_cookies_per_sale);
-};
-
 let sales = [
   new StoreLocation("Seattle", 23, 65, 6.3),
   new StoreLocation("Tokyo", 3, 24, 1.2),
@@ -147,7 +135,17 @@ function createStoreLocation(name, minCust, maxCust, avgCps) {
   }
 
   if (storeAlreadyExists) {
+    console.log("Store with the same name already exists!");
     alert(`Store with the name: ${name} already exists!`);
+    let deleteStorePrompt = confirm(
+      `${name} store already exists! Do you want to delete it? Click OK if so.`
+    );
+
+    if (deleteStorePrompt) {
+      deleteStoreLocation(name);
+    } else {
+      alert("Okay, your store remains.");
+    }
   } else {
     let newStore = new StoreLocation(`${name}`, minCust, maxCust, avgCps);
 
@@ -156,69 +154,24 @@ function createStoreLocation(name, minCust, maxCust, avgCps) {
   }
 }
 
-function editStoreLocation(name) {
-  let locationFound = false;
-  let locationIndex = null;
-
-  for (let i = 0; i < sales.length; i++) {
-    if (sales[i].location.toLowerCase() === name.toLowerCase()) {
-      console.log("found");
-      locationIndex = i;
-      locationFound = true;
-    }
-  }
-
-  if (locationFound) {
-    sales.splice(
-      locationIndex,
-      1,
-      new StoreLocation(
-        name,
-        parseInt(sales[locationIndex].min_hourly_customers),
-        parseInt(sales[locationIndex].max_hourly_customers),
-        parseFloat(sales[locationIndex].avg_cookies_per_sale)
-      )
-    );
-    refreshTableBody();
-  } else {
-    alert("Store does not exist.");
-  }
-}
-
 function deleteStoreLocation(name) {
   let locationFound = false;
   let locationIndex = null;
 
   for (let i = 0; i < sales.length; i++) {
-    if (sales[i].location.toLowerCase() === name.toLowerCase()) {
+    if (sales[i].location === name) {
       console.log("found");
-      locationFound = true;
       locationIndex = i;
+      locationFound = true;
     }
   }
 
   if (locationFound) {
-    // console.log(`${name} deleted.`);
-
-    let deleteStorePrompt = confirm(
-      `Are you sure you want to delete ${name} store? Click OK if so.`
-    );
-
-    if (deleteStorePrompt) {
-      name = name.toLowerCase();
-      sales.splice(locationIndex, 1);
-      refreshTableBody();
-    } else {
-      alert("Okay, your store remains.");
-    }
-
-    // console.log(locationName);
-
-    // document.getElementById(`sales_for_${name}`).remove();
-    // sales.splice(locationIndex, 1, new StoreLocation("Deleted", 0, 0, 0));
-  } else {
-    alert("This store does not exist.");
+    console.log(`${name} deleted.`);
+    sales.splice(locationIndex, 1, new StoreLocation("Deleted", 0, 0, 0));
   }
+
+  refreshTableBody();
 }
 
 function renderTableHeader() {
@@ -256,9 +209,7 @@ function renderTableBody() {
   let totalsArray = [];
 
   for (let i = 0; i < sales.length; i++) {
-    if (sales[i] != null) {
-      sales[i].render_table();
-    }
+    sales[i].render_table();
   }
 
   // rendering the totals
