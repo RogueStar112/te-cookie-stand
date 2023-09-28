@@ -14,6 +14,8 @@
     />
 
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="sales_form.css">
+      
   </head>
   <body>
     <header></header>
@@ -36,12 +38,48 @@
         <tbody id="sales-table-body"></tbody>
       </table>
 
-      <p>Try createStoreLocation and deleteStoreLocation in the console.log!</p>
-      <p>- Demie</p>
+      <!-- <p>Try createStoreLocation and deleteStoreLocation in the console.log!</p>
+      <p>- Demie</p> -->
+
+      <form id="cookies-input-form">
+        
+
+        <section>
+
+          <fieldset>
+            <legend><strong></strong>Create a Store</legend>
+        <div>
+          <label for="form-name">
+            Name of Store
+          </label>
+
+          <input id="form-name" name="form-name" type="text">
+        </div>
+
+        <div>
+          <label for="form-mincust">Minimum Customers</label>
+          <input id="form-mincust" name="form-minsales" >
+        </div>
+        
+        <div>
+          <label for="form-maxcust">Maximum Customers</label>
+          <input id="form-maxcust" name="form-maxcust" />
+        </div>
+          <label for="form-avgcps">Average Cookies Per Sale</label>
+          <input id="form-avgcps" name="form-avgcps" />
+        </div> 
+        </fieldset>
+
+        </section>
+
+        <input type="submit" />
+
+      </form>
     </main>
 
     <footer></footer>
 
     <script src="app.js" defer></script>
+    <script type="module" src="sales_form.js" defer></script>
   </body>
 </html>

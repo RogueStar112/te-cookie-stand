@@ -127,8 +127,30 @@ let sales = [
 
 function createStoreLocation(name, minCust, maxCust, avgCps) {
   let newStore = new StoreLocation(`${name}`, minCust, maxCust, avgCps);
-  sales.push(newStore);
-  refreshTableBody();
+
+  let storeAlreadyExists = false;
+  
+  for (let i=0; i<sales.length; i++) {    
+    if((sales[i].location).toLowerCase() == name.toLowerCase()) {
+      storeAlreadyExists = true;
+    }
+  }
+
+  if (storeAlreadyExists) {
+    console.log('Store with the same name already exists!');
+    let deleteStorePrompt = confirm(`${name} store already Exists! Do you want to delete it? Click OK if so.`)
+    
+    if (deleteStorePrompt) {
+      deleteStoreLocation(name);
+    } else {
+      alert('Okay, your store remains.')
+    }
+  } else {
+    sales.push(newStore);
+    refreshTableBody();
+  
+  }
+
 }
 
 function deleteStoreLocation(name) {
@@ -216,8 +238,6 @@ function renderTableBody() {
 
 console.log(sales);
 
-renderTableHeader();
-renderTableBody();
 
 // createStoreLocation("Manila", 20, 57, 4.8);
 
